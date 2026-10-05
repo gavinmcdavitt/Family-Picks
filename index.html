@@ -95,8 +95,10 @@ details p{margin:6px 0 0}
 </main>
 <script id="data" type="application/json">{"weeks":[{"n":1,"winners":["49ers","Bears","Bengals","Bills","Cardinals","Chiefs","Eagles","Giants","Jaguars","Jets","Lions","Raiders","Ravens","Seahawks","Steelers","Vikings"],"picks":{"Pops":["Chiefs","Texans","Titans","Buccaneers","Ravens","Raiders","Packers","Steelers","Cowboys","Seahawks","Rams","Eagles","Bears","Chargers","Jaguars","Lions"],"Anna":["Bills","Vikings","Titans","Chiefs","Cowboys","Bears","Ravens","Seahawks","Raiders","Steelers","Bengals","Rams","Eagles","Lions","Jaguars","Chargers"],"Gavin":["Texans","Dolphins","Bengals","Steelers","Seahawks","Titans","Packers","Rams","Broncos","Lions","Ravens","Bears","Eagles","Jaguars","Cowboys","Chargers"]}},{"n":2,"winners":["49ers","Bengals","Bills","Broncos","Browns","Chiefs","Cowboys","Eagles","Packers","Panthers","Patriots","Raiders","Rams","Saints","Seahawks","Vikings"],"picks":{"Pops":["Rams","Cowboys","Jaguars","Bengals","Packers","Seahawks","Chargers","Panthers","Bears","Bills","Patriots","Buccaneers","Ravens","Eagles","Chiefs","49ers"],"Anna":["Buccaneers","49ers","Ravens","Rams","Chargers","Eagles","Chiefs","Bills","Panthers","Bears","Cowboys","Packers","Seahawks","Patriots","Texans","Broncos"],"Gavin":["Lions","Cowboys","Bengals","Patriots","Panthers","Rams","Chargers","Seahawks","Ravens","Chiefs","Jaguars","Bears","Packers","Buccaneers","Eagles","49ers"]}},{"n":3,"winners":["49ers","Bears","Bills","Broncos","Browns","Chiefs","Colts","Commanders","Falcons","Giants","Jaguars","Lions","Raiders","Ravens","Steelers","Vikings"],"picks":{"Pops":["Giants","Colts","Patriots","Vikings","Packers","Saints","Cowboys","Lions","Eagles","Rams","49ers","Panthers","Seahawks","Bengals","Bills","Chiefs"],"Anna":["Vikings","Colts","Rams","Ravens","Saints","Jaguars","Panthers","Bengals","Giants","Packers","Eagles","Lions","Seahawks","Bills","49ers","Chiefs"],"Gavin":["Giants","Vikings","Lions","Texans","Packers","Ravens","Bills","Jaguars","Bengals","Saints","Panthers","49ers","Eagles","Chiefs","Rams","Seahawks"]}},{"n":4,"winners":["49ers","Bears","Browns","Chiefs","Colts","Cowboys","Giants","Jaguars","Packers","Panthers","Patriots","Rams","Ravens","Seahawks","Vikings"],"picks":{"Pops":["Colts","Buccaneers","Browns","Eagles","Giants","Falcons","Bears","Ravens","Cowboys","Lions","Chiefs","Bengals","49ers","Vikings","Seahawks","Bills"],"Anna":["Cardinals","Saints","Bengals","Steelers","Texans","49ers","Colts","Rams","Bears","Packers","Lions","Chiefs","Bills","Seahawks","Vikings","Ravens"],"Gavin":["Colts","Jaguars","Cardinals","Bears","Packers","Rams","Texans","Panthers","49ers","Chiefs","Saints","Steelers","Ravens","Bills","Seahawks","Vikings"]}}]}</script>
 <script>
-/* ====== SETUP: paste your Google Sheets "Publish to web" CSV link for the Weekly Picks tab between the quotes ====== */
-const SHEET_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTK8sa6CfXnBPGESzml1AvFXdQmgVPX_W9vC1-z2auJKsFBpVBP6xvvuY8R97zCvcPBbDXVNduFlzIT/pub?output=csv';
+/* ====== SETUP: your published Google Sheet link, plus the tab number (gid) of the Weekly Picks tab ====== */
+const SHEET_PUB_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTK8sa6CfXnBPGESzml1AvFXdQmgVPX_W9vC1-z2auJKsFBpVBP6xvvuY8R97zCvcPBbDXVNduFlzIT/pub';
+const WEEKLY_PICKS_GID = '1791117626';   // open the Weekly Picks tab in Google Sheets: the address ends in #gid=123456789. Paste that number here.
+const SHEET_CSV_URL = WEEKLY_PICKS_GID ? SHEET_PUB_URL+'?gid='+WEEKLY_PICKS_GID+'&single=true&output=csv' : '';
 const REFRESH_MINUTES = 5;
 /* ================================================================================================================ */
 (function(){
@@ -121,6 +123,7 @@ function fromRows(rows){
   const weeks=[];
   rows.forEach((r,i)=>{
     const m=/^Week (\d+)$/i.exec((r[0]||'').trim());if(!m)return;
+    if(!/^points/i.test(((rows[i+1]||[])[0]||'').trim()))return; /* only the Weekly Picks layout */
     const picks={Pops:[],Anna:[],Gavin:[]},winners=[];
     for(let k=0;k<16;k++){const q=rows[i+2+k]||[];
       picks.Pops.push(clean(q[1]));picks.Anna.push(clean(q[3]));picks.Gavin.push(clean(q[5]));
@@ -190,12 +193,12 @@ function render(D){
 }
 const status=m=>document.getElementById('status').textContent=m;
 async function load(){
-  if(!SHEET_CSV_URL){render(FALLBACK);status('Showing saved data. The Google Sheet is not connected yet.');return}
+  if(!SHEET_CSV_URL){render(FALLBACK);status('Showing saved data. Finish setup by adding the Weekly Picks tab number (gid) in index.html.');return}
   try{
     const r=await fetch(SHEET_CSV_URL+(SHEET_CSV_URL.includes('?')?'&':'?')+'t='+Date.now(),{cache:'no-store'});
     if(!r.ok)throw new Error(r.status);
     const D=fromRows(parseCSV(await r.text()));
-    if(!D.weeks.length)throw new Error('no weeks found');
+    if(!D.weeks.length){status('Showing saved data. The link is not pointing at the Weekly Picks tab. Check the gid number in index.html.');if(sel===null)render(FALLBACK);return}
     render(D);
     status('Live from Google Sheets. Checked at '+new Date().toLocaleTimeString([],{hour:'numeric',minute:'2-digit'})+'.');
   }catch(e){
