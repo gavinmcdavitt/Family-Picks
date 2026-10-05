@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Family Picks 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#F1F3F2; --card:#FFFFFF; --ink:#17211B; --muted:#5E6A63; --line:#DDE3DF;
+  --turf:#17503A; --flag:#F5C518; --flag-soft:#FFF4C2;
+  --ok-bg:#D7EEDD; --ok-ink:#14572F; --miss-bg:#F8E0DE; --miss-ink:#8A2A22;
+  --Pops:#2F5DA8; --Anna:#B03A78; --Gavin:#C7701A;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 15px/1.45 'Barlow',system-ui,-apple-system,'Segoe UI',Roboto,Arial,sans-serif}
+h1,h2,h3{font-family:'Barlow Condensed','Arial Narrow',Arial,sans-serif;margin:0;letter-spacing:.01em}
+header{background:var(--turf);color:#fff;padding:28px 20px 24px;border-bottom:6px solid var(--flag)}
+header .in,main{max-width:1440px;margin:0 auto}
+header h1{font-size:clamp(34px,6vw,56px);font-weight:700;line-height:1}
+header p{margin:8px 0 0;color:#CFE3D8}
+main{padding:22px 16px 48px}
+section{margin-bottom:34px}
+h2{font-size:28px;font-weight:700;margin-bottom:12px}
+.totals{display:grid;gap:16px;grid-template-columns:minmax(0,1fr)}
+@media(min-width:900px){.totals{grid-template-columns:340px minmax(0,560px);align-items:start}}
+.stand{display:grid;gap:10px}
+@media(min-width:560px) and (max-width:899px){.stand{grid-template-columns:repeat(3,1fr)}}
+.player{background:var(--card);border:1px solid var(--line);border-left:8px solid var(--c);border-radius:6px;padding:12px 14px}
+.player .top{display:flex;justify-content:space-between;align-items:baseline;gap:8px}
+.player .name{font:700 22px 'Barlow Condensed',Arial,sans-serif;color:var(--c)}
+.player .rank{font-size:13px;color:var(--muted);font-weight:600}
+.player .pts{font:700 44px/1 'Barlow Condensed',Arial,sans-serif;margin:4px 0 2px}
+.player .sub{font-size:13px;color:var(--muted)}
+.lead{background:var(--flag);color:#3B2F00;border-radius:3px;padding:1px 7px;font-weight:600;font-size:12px}
+.tbl{width:100%;border-collapse:collapse;background:var(--card);border:1px solid var(--line);border-radius:6px;overflow:hidden}
+.tbl th,.tbl td{padding:7px 10px;text-align:center;border-bottom:1px solid var(--line)}
+.tbl th{font:700 17px 'Barlow Condensed',Arial,sans-serif;color:#fff;background:var(--c,var(--turf))}
+.tbl td:first-child,.tbl th:first-child{text-align:left}
+.tbl .none{color:#A3ADA7}
+.tbl .hi{background:var(--flag-soft);font-weight:600}
+.tbl tfoot td{font-weight:700;background:#EAF0EC;border-bottom:0}
+.note{font-size:13px;color:var(--muted);margin:8px 2px 0}
+.bar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:14px}
+.bar button{font:600 14px 'Barlow',Arial,sans-serif;padding:7px 14px;border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:999px;cursor:pointer}
+.bar button[aria-pressed=true]{background:var(--turf);border-color:var(--turf);color:#fff}
+button:focus-visible,summary:focus-visible{outline:3px solid var(--flag);outline-offset:2px}
+.weeks{display:grid;gap:16px;grid-template-columns:minmax(0,1fr)}
+@media(min-width:900px){.weeks.all{grid-template-columns:repeat(auto-fill,minmax(430px,1fr))}}
+@media(min-width:700px){.weeks.one{max-width:620px}}
+.wk{background:var(--card);border:1px solid var(--line);border-radius:6px;overflow:hidden}
+.wk .hd{display:flex;justify-content:space-between;align-items:baseline;padding:10px 12px;background:var(--turf);color:#fff}
+.wk .hd h3{font-size:24px;font-weight:700}
+.wk .hd span{font-size:13px;color:#CFE3D8}
+.pk{width:100%;border-collapse:collapse;table-layout:fixed}
+.pk th{font:700 16px 'Barlow Condensed',Arial,sans-serif;padding:6px 4px;border-bottom:3px solid var(--c);text-align:center}
+.pk th:first-child{width:44px;color:var(--muted)}
+.pk td{padding:5px 6px;text-align:center;border-bottom:1px solid var(--line);font-size:14px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.pk td:first-child{font-weight:600;color:var(--muted);background:#F6F8F7}
+.pk td.ok{background:var(--ok-bg);color:var(--ok-ink);font-weight:600}
+.pk td.miss{background:var(--miss-bg);color:var(--miss-ink)}
+.pk tfoot td{font:700 20px 'Barlow Condensed',Arial,sans-serif;background:#EAF0EC;border-bottom:0;color:var(--ink)}
+details{padding:8px 12px 10px;font-size:13px;color:var(--muted)}
+summary{cursor:pointer;font-weight:600;color:var(--ink)}
+details p{margin:6px 0 0}
+.key{display:flex;gap:14px;flex-wrap:wrap;font-size:13px;color:var(--muted);margin-bottom:12px}
+.key i{display:inline-block;width:12px;height:12px;border-radius:2px;margin-right:5px;vertical-align:-1px}
+@media(max-width:420px){.pk td{font-size:13px;padding:5px 3px}}
+</style>
+</head>
+<body>
+<header><div class="in">
+  <h1>Family Picks 2026</h1>
+  <p>NFL confidence pool for Pops, Anna and Gavin</p>
+  <p id="status" style="font-size:13px;margin-top:4px" aria-live="polite"></p>
+</div></header>
+<main>
+  <section aria-labelledby="t-h">
+    <h2 id="t-h">Season totals</h2>
+    <div class="totals">
+      <div class="stand" id="stand"></div>
+      <div><table class="tbl" id="wkTable"></table>
+      <p class="note">The highest score each week is highlighted. Weeks fill in once winners are entered.</p></div>
+    </div>
+  </section>
+  <section aria-labelledby="p-h">
+    <h2 id="p-h">Weekly picks</h2>
+    <div class="bar" id="bar" role="group" aria-label="Choose weeks to show"></div>
+    <div class="key"><span><i style="background:var(--ok-bg)"></i>Correct pick</span><span><i style="background:var(--miss-bg)"></i>Missed pick</span><span>Row number is the points the pick is worth</span></div>
+    <div class="weeks" id="weeks"></div>
+  </section>
+</main>
+<script id="data" type="application/json">{"weeks":[{"n":1,"winners":["49ers","Bears","Bengals","Bills","Cardinals","Chiefs","Eagles","Giants","Jaguars","Jets","Lions","Raiders","Ravens","Seahawks","Steelers","Vikings"],"picks":{"Pops":["Chiefs","Texans","Titans","Buccaneers","Ravens","Raiders","Packers","Steelers","Cowboys","Seahawks","Rams","Eagles","Bears","Chargers","Jaguars","Lions"],"Anna":["Bills","Vikings","Titans","Chiefs","Cowboys","Bears","Ravens","Seahawks","Raiders","Steelers","Bengals","Rams","Eagles","Lions","Jaguars","Chargers"],"Gavin":["Texans","Dolphins","Bengals","Steelers","Seahawks","Titans","Packers","Rams","Broncos","Lions","Ravens","Bears","Eagles","Jaguars","Cowboys","Chargers"]}},{"n":2,"winners":["49ers","Bengals","Bills","Broncos","Browns","Chiefs","Cowboys","Eagles","Packers","Panthers","Patriots","Raiders","Rams","Saints","Seahawks","Vikings"],"picks":{"Pops":["Rams","Cowboys","Jaguars","Bengals","Packers","Seahawks","Chargers","Panthers","Bears","Bills","Patriots","Buccaneers","Ravens","Eagles","Chiefs","49ers"],"Anna":["Buccaneers","49ers","Ravens","Rams","Chargers","Eagles","Chiefs","Bills","Panthers","Bears","Cowboys","Packers","Seahawks","Patriots","Texans","Broncos"],"Gavin":["Lions","Cowboys","Bengals","Patriots","Panthers","Rams","Chargers","Seahawks","Ravens","Chiefs","Jaguars","Bears","Packers","Buccaneers","Eagles","49ers"]}},{"n":3,"winners":["49ers","Bears","Bills","Broncos","Browns","Chiefs","Colts","Commanders","Falcons","Giants","Jaguars","Lions","Raiders","Ravens","Steelers","Vikings"],"picks":{"Pops":["Giants","Colts","Patriots","Vikings","Packers","Saints","Cowboys","Lions","Eagles","Rams","49ers","Panthers","Seahawks","Bengals","Bills","Chiefs"],"Anna":["Vikings","Colts","Rams","Ravens","Saints","Jaguars","Panthers","Bengals","Giants","Packers","Eagles","Lions","Seahawks","Bills","49ers","Chiefs"],"Gavin":["Giants","Vikings","Lions","Texans","Packers","Ravens","Bills","Jaguars","Bengals","Saints","Panthers","49ers","Eagles","Chiefs","Rams","Seahawks"]}},{"n":4,"winners":["49ers","Bears","Browns","Chiefs","Colts","Cowboys","Giants","Jaguars","Packers","Panthers","Patriots","Rams","Ravens","Seahawks","Vikings"],"picks":{"Pops":["Colts","Buccaneers","Browns","Eagles","Giants","Falcons","Bears","Ravens","Cowboys","Lions","Chiefs","Bengals","49ers","Vikings","Seahawks","Bills"],"Anna":["Cardinals","Saints","Bengals","Steelers","Texans","49ers","Colts","Rams","Bears","Packers","Lions","Chiefs","Bills","Seahawks","Vikings","Ravens"],"Gavin":["Colts","Jaguars","Cardinals","Bears","Packers","Rams","Texans","Panthers","49ers","Chiefs","Saints","Steelers","Ravens","Bills","Seahawks","Vikings"]}}]}</script>
+<script>
+/* ====== SETUP: paste your Google Sheets "Publish to web" CSV link for the Weekly Picks tab between the quotes ====== */
+const SHEET_CSV_URL = '';
+const REFRESH_MINUTES = 5;
+/* ================================================================================================================ */
+(function(){
+const FALLBACK=JSON.parse(document.getElementById('data').textContent);
+const P=['Pops','Anna','Gavin'], NW=18;
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const col=p=>`style="--c:var(--${p})"`;
+const clean=s=>((s||'').trim())||null;
+
+function parseCSV(t){
+  const rows=[];let row=[],f='',q=false;
+  for(let i=0;i<t.length;i++){const c=t[i];
+    if(q){if(c==='"'){if(t[i+1]==='"'){f+='"';i++}else q=false}else f+=c}
+    else if(c==='"')q=true;
+    else if(c===','){row.push(f);f=''}
+    else if(c==='\n'||c==='\r'){if(c==='\r'&&t[i+1]==='\n')i++;row.push(f);rows.push(row);row=[];f=''}
+    else f+=c}
+  if(f!==''||row.length){row.push(f);rows.push(row)}
+  return rows;
+}
+function fromRows(rows){
+  const weeks=[];
+  rows.forEach((r,i)=>{
+    const m=/^Week (\d+)$/i.exec((r[0]||'').trim());if(!m)return;
+    const picks={Pops:[],Anna:[],Gavin:[]},winners=[];
+    for(let k=0;k<16;k++){const q=rows[i+2+k]||[];
+      picks.Pops.push(clean(q[1]));picks.Anna.push(clean(q[3]));picks.Gavin.push(clean(q[5]));
+      const w=clean(q[8]);if(w)winners.push(w)}
+    weeks.push({n:+m[1],winners,picks});
+  });
+  return {weeks};
+}
+function score(w){
+  const win=new Set(w.winners.map(x=>x.toLowerCase()));const r={};
+  P.forEach(p=>{
+    const rows=w.picks[p].map((pk,i)=>({pk,pts:i+1,ok:!!pk&&win.has(pk.toLowerCase())}));
+    r[p]={rows,total:rows.reduce((a,x)=>a+(x.ok?x.pts:0),0)};
+  });
+  return r;
+}
+const bar=document.getElementById('bar'),box=document.getElementById('weeks');
+let sel=null,shown=[];
+function card(w){
+  const hasW=w.played;
+  let h=`<article class="wk"><div class="hd"><h3>Week ${w.n}</h3><span>${hasW?w.winners.length+' of 16 winners entered':'Winners not entered yet'}</span></div>
+  <table class="pk"><thead><tr><th>Pts</th>${P.map(p=>`<th ${col(p)}>${p}</th>`).join('')}</tr></thead><tbody>`;
+  for(let i=0;i<16;i++){
+    h+=`<tr><td>${i+1}</td>`+P.map(p=>{const x=w.s[p].rows[i];
+      const cls=!x.pk?'':x.ok?'ok':(hasW?'miss':'');
+      return `<td class="${cls}" title="${esc(x.pk||'')}">${x.pk?esc(x.pk):'-'}</td>`}).join('')+'</tr>';
+  }
+  h+=`</tbody><tfoot><tr><td>Total</td>${P.map(p=>`<td>${hasW?w.s[p].total:'-'}</td>`).join('')}</tr></tfoot></table>`;
+  if(hasW)h+=`<details><summary>Winners this week</summary><p>${w.winners.map(esc).join(', ')}</p></details>`;
+  return h+'</article>';
+}
+function drawPicks(){
+  bar.innerHTML=`<button type="button" data-k="all" aria-pressed="${sel==='all'}">All weeks</button>`+
+    shown.slice().sort((a,b)=>a.n-b.n).map(w=>`<button type="button" data-k="${w.n}" aria-pressed="${sel===String(w.n)}">Week ${w.n}</button>`).join('');
+  const list=sel==='all'?shown:shown.filter(w=>String(w.n)===sel);
+  box.className='weeks '+(sel==='all'?'all':'one');
+  box.innerHTML=list.length?list.map(card).join(''):'<p class="note">No picks have been entered yet.</p>';
+}
+bar.addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;sel=b.dataset.k;drawPicks()});
+
+function render(D){
+  const weeks=D.weeks.slice().sort((a,b)=>a.n-b.n).map(w=>({...w,s:score(w),played:w.winners.length>0}));
+  const byN={};weeks.forEach(w=>byN[w.n]=w);
+  const tot={},won={};P.forEach(p=>{tot[p]=0;won[p]=0});
+  weeks.filter(w=>w.played).forEach(w=>{
+    const mx=Math.max(...P.map(p=>w.s[p].total));
+    P.forEach(p=>{tot[p]+=w.s[p].total;if(w.s[p].total===mx&&mx>0)won[p]++});
+  });
+  const order=P.slice().sort((a,b)=>tot[b]-tot[a]),top=tot[order[0]];
+  document.getElementById('stand').innerHTML=order.map(p=>{
+    const rk=P.filter(q=>tot[q]>tot[p]).length+1,gap=top-tot[p];
+    return `<div class="player" ${col(p)}><div class="top"><span class="name">${p}</span>${rk===1?'<span class="lead">Leading</span>':`<span class="rank">${rk===2?'2nd':rk+'th'}</span>`}</div>
+    <div class="pts">${tot[p]}</div><div class="sub">${gap?gap+' behind the leader':'Top of the standings'} &nbsp;|&nbsp; ${won[p]} week${won[p]===1?'':'s'} won</div></div>`}).join('');
+  let h=`<thead><tr><th>Week</th>${P.map(p=>`<th ${col(p)}>${p}</th>`).join('')}</tr></thead><tbody>`;
+  for(let n=1;n<=NW;n++){
+    const w=byN[n];
+    if(w&&w.played){const mx=Math.max(...P.map(p=>w.s[p].total));
+      h+=`<tr><td>Week ${n}</td>${P.map(p=>`<td class="${w.s[p].total===mx?'hi':''}">${w.s[p].total}</td>`).join('')}</tr>`}
+    else h+=`<tr><td class="none">Week ${n}</td>${P.map(()=>'<td class="none">-</td>').join('')}</tr>`;
+  }
+  h+=`</tbody><tfoot><tr><td>Season total</td>${P.map(p=>`<td>${tot[p]}</td>`).join('')}</tr></tfoot>`;
+  document.getElementById('wkTable').innerHTML=h;
+  shown=weeks.filter(w=>P.some(p=>w.picks[p].some(Boolean))).sort((a,b)=>b.n-a.n);
+  if(sel===null)sel=window.matchMedia('(min-width:900px)').matches?'all':String(shown[0]?shown[0].n:'all');
+  if(sel!=='all'&&!shown.some(w=>String(w.n)===sel))sel='all';
+  drawPicks();
+}
+const status=m=>document.getElementById('status').textContent=m;
+async function load(){
+  if(!SHEET_CSV_URL){render(FALLBACK);status('Showing saved data. The Google Sheet is not connected yet.');return}
+  try{
+    const r=await fetch(SHEET_CSV_URL+(SHEET_CSV_URL.includes('?')?'&':'?')+'t='+Date.now(),{cache:'no-store'});
+    if(!r.ok)throw new Error(r.status);
+    const D=fromRows(parseCSV(await r.text()));
+    if(!D.weeks.length)throw new Error('no weeks found');
+    render(D);
+    status('Live from Google Sheets. Checked at '+new Date().toLocaleTimeString([],{hour:'numeric',minute:'2-digit'})+'.');
+  }catch(e){
+    if(sel===null)render(FALLBACK);
+    status('Could not reach the Google Sheet, so this may be out of date. Reload to try again.');
+  }
+}
+load();
+setInterval(load,REFRESH_MINUTES*60000);
+})();
+</script>
+</body>
+</html>
